@@ -1,68 +1,64 @@
 import 'package:flutter/material.dart';
-class View extends StatefulWidget {
-  @override
-  _ViewState createState() => _ViewState();
+
+class AddRemoveListView extends StatefulWidget {
+  _AddRemoveListViewState createState() => _AddRemoveListViewState();
 }
 
-class _ViewState extends State<View> {
+class _AddRemoveListViewState extends State<AddRemoveListView>{
+  TextEditingController _textController = TextEditingController();
 
-  final List<String> thelist =["Child 1","Child 2","Child 3","Child4","Child5"];
+  List<String> _listViewData = [
+    "Swipe Right/Left to remove"
+  ];
+  _onSubmit() {
+    setState(() {
+      _listViewData.add(_textController.text);
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(
-        "Children list view",
-          style: new TextStyle(fontSize: 19.0),
-        ),
-backgroundColor: Colors.teal,
 
-        actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.person_add),
-              onPressed: ()=>debugPrint("Add")
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add & remove from Listview'),
+      ),
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 15.0),
+          TextField(
+            controller: _textController,
+            decoration: InputDecoration(
+              hintText: 'Add childs name',
+            ),
           ),
-          new IconButton(
-              icon: new Icon(Icons.search),
-              onPressed: ()=>debugPrint("Search")
+          SizedBox(height: 15.0),
+          Center(
+            child: RaisedButton(
+              onPressed: _onSubmit,
+              child: Text('Add child to list'),
+              color: Colors.teal,
+            ),
+          ),
+          SizedBox(height: 20.0),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.all(10.0),
+              children: _listViewData.reversed.map((data) {
+                return Dismissible(
+                  key: Key(data),
+                  child: ListTile(
+                    title: Text(data),
+                  ),
+                );
+              }).toList(),
+            ),
           ),
         ],
-
-      ),
-
-
-      body: new Container(
-        child: new ListView.builder(
-            itemBuilder: (_,int index)=>ChildrenList(this.thelist[index]),
-          itemCount: this.thelist.length,
-        ),
       ),
     );
   }
 }
-class ChildrenList extends StatelessWidget{
 
-  String childName;
-  ChildrenList(this.childName);
-
-  @override
-  Widget build(BuildContext context) {
-
-    return new Card(
-      child: new Container(
-        child: new Row(
-          children: <Widget>[
-
-            new CircleAvatar(
-              child: new Text(childName[0]),
-            ),
-            new Text(childName,style: TextStyle(fontSize: 20.0),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-}

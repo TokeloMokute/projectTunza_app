@@ -8,7 +8,7 @@ class _AddRemoveListViewState extends State<AddRemoveListView>{
   TextEditingController _textController = TextEditingController();
 
   List<String> _listViewData = [
-    "Swipe Right/Left to remove"
+    "Swipe Right/Left to remove "
   ];
   _onSubmit() {
     setState(() {
